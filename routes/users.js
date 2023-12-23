@@ -13,10 +13,9 @@ router.get('/', function(req, res, next) {
 router.get('/recommend', usersController.getRecommend);
 
 
-/**
- * Test route
- */
-router.get('/test', usersController.testRead);
+router.get('/allRating_Restaurant', usersController.getAllRatings_Restaurant);
+
+router.get('/allRating_User', usersController.getAllRatings_User);
 
 router.post('/test', usersController.testCreate);
 

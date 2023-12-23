@@ -6,20 +6,58 @@ exports.getRecommend = (req, res) => {
     
 }
 
-exports.testRead = async (req, res, next) => {
+exports.getAllRatings_Restaurant= async (req, res, next) => {
     try{
-        const todo = await Restaurants.find();
+        const restaurantsRatings = await Restaurants.find();
         
-        res.json(todo);
+        const intergratedComments = restaurantsRatings.map((restaurant) =>{
+            return restaurant.comments.map((comment) => {
+                return {
+                    user: comment.user,
+                    rating: comment.rating
+                }
+            })
+        }).flat();
+        
+        res.json(intergratedComments);
     } 
     catch(err) {
-        res.status(500).json(
-            {
+        res.status(500).json({
                 message: err.message
-            }
-        )
+        })
     }
 }
+
+exports.getAllRatings_User = async (req, res, next) => {
+    try{
+        const userRatings = await Restaurants.find({'comments.user': '王'});
+
+        console.log(userRatings)
+
+        if(userRatings.length === 0){
+            res.json({
+                message: "Uesr has not rated any restaurant"
+            })
+            
+            return;
+        }
+
+        const rating = userRatings.map((restaurant) => {
+            return {
+                restaurantName: restaurant.restName,
+                userRating: restaurant.comments.find(comment => comment.user === 'guo').rating,
+            };
+        });
+
+        res.send(rating);
+    }
+    catch(err){
+        res.status(500).json({
+            message: err.message
+        })
+    }
+}
+
 
 exports.testCreate = async (req, res, next) => {
     const todo = new Restaurants({
