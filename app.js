@@ -10,7 +10,14 @@ var authRouter = require('./routes/auth');
 
 var app = express();
 
-// validation strategy setup
+/**
+ * Database connection
+ */
+const connection_db = require('./models/connection_db');
+
+/**
+ * Validation strategy setup
+ */
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const config = require('./config/config');

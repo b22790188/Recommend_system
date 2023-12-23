@@ -1,4 +1,4 @@
-const testModel = require('../models/testModel')
+const Restaurants = require('../models/restaurantModel')
 
 exports.getRecommend = (req, res) => {
 
@@ -8,7 +8,7 @@ exports.getRecommend = (req, res) => {
 
 exports.testRead = async (req, res, next) => {
     try{
-        const todo = await testModel.find();
+        const todo = await Restaurants.find();
         
         res.json(todo);
     } 
@@ -22,9 +22,9 @@ exports.testRead = async (req, res, next) => {
 }
 
 exports.testCreate = async (req, res, next) => {
-    const todo = new testModel({
-        thing: req.body.thing,
-        isDone: req.body.isDone
+    const todo = new Restaurants({
+        restName: req.body.restName,
+        comments: req.body.comments
     });
 
     try{
@@ -38,7 +38,7 @@ exports.testCreate = async (req, res, next) => {
 
 exports.testFind = async (req, res, next) => {
     try{
-        const todo = await testModel.find();
+        const todo = await Restaurants.find();
         if(todo == undefined){
             res.status(404).json({message: 'Not found'});
         }
@@ -52,8 +52,8 @@ exports.testFind = async (req, res, next) => {
 
 exports.testUpdate = async (req, res, next) => {
     try{
-        const todo = await testModel.findById(req.params.id);
-        todo.thing = "swimming";
+        const todo = await Restaurants.findById(req.params.id);
+        todo.userName= "guo";
         
         const newTodo = await todo.save();
         res.status(201).send(newTodo);
