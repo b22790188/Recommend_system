@@ -1,0 +1,8 @@
+.env
+
+*.txt
+
+*.excalidraw
+
+node_modules/
+
