@@ -1,6 +1,7 @@
 var express = require('express');
 const passport = require('passport');
 var router = express.Router();
+const authController = require('../controllers/auth');
 
 /**
  * Google login
@@ -14,23 +15,6 @@ router.get('/google', passport.authenticate('google', {
     scope: ['email', 'profile'],
 }))
 
-router.get('/google/callback', passport.authenticate('google', {session:false}), (req, res) => {
-    // res.send({
-    //     status: true,
-    //     data:{
-    //         id: req.user.id,
-    //         name: req.user.displayName,
-    //         emails: req.user.emails[0].value
-    //     }
-    // });
-
-    res.render('recommend',{
-        data:{
-            id: req.user.id,
-            name: req.user.displayName,
-            emails: req.user.emails[0].value
-        }
-    })
-})
+router.get('/google/callback', passport.authenticate('google',{session:false}), authController.getUserData);
 
 module.exports = router;
