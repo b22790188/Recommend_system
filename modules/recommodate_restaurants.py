@@ -70,8 +70,6 @@ def recommodate_restaurants(data, target_user):
         user_restaurant_rating, target_user
     )
 
-    print(user_similarity)
-
     # 選擇與目標用戶最相似的10位用戶
     n_similar_users = 10
     similar_users = user_similarity.sort_values(ascending=False).index[
@@ -86,8 +84,6 @@ def recommodate_restaurants(data, target_user):
         .sort_values(ascending=False)
     )
 
-    print(user_restaurant_rating.loc[similar_users])
-
     # 篩選未評分的餐廳
     unrated_restaurants = user_restaurant_rating.loc[target_user][
         user_restaurant_rating.loc[target_user] == 0
@@ -96,7 +92,16 @@ def recommodate_restaurants(data, target_user):
         recommendations[unrated_restaurants.index].sort_values(ascending=False).dropna()
     )
 
-    return recommended_restaurants
+    # 將餐廳之資料刪除整理成推薦後的餐廳排序
+    recommended_restaurants_info = df[
+        df["Restaurant"].isin(recommended_restaurants.index)
+    ].drop_duplicates("Restaurant")
+    recommended_restaurants_with_info = recommended_restaurants_info.set_index(
+        "Restaurant"
+    ).loc[recommended_restaurants.index]
+    recommended_restaurants_with_info["Rating"] = recommended_restaurants
+
+    return recommended_restaurants_with_info
 
 
 if __name__ == "__main__":
