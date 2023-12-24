@@ -25,7 +25,7 @@ const config = require('./config/config');
 passport.use(new GoogleStrategy({
     clientID: `${config.OAuth_ClientID}`,
     clientSecret: `${config.OAuth_ClientSecret}`,
-    callbackURL: `http://${config.Host}:${config.Port}/user`
+    callbackURL: `http://${config.Host}:${config.Port}/user/area_choice`
   },
   function(accessToken, refreshToken, profile, cb) {
     return cb(null,profile)

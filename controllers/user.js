@@ -21,3 +21,16 @@ exports.getUserData = (req, res) => {
 
     // TODO: render recommend data back to frontend
 }
+
+exports.postAreaChoice = (req, res) => {
+    let data = {
+        id: req.body.id,
+        name: req.body.name,
+        area: req.body.area
+    }   
+    res.json({
+        data: data,
+        message: 'success'
+    }) 
+    // TODO: send data to python crawler
+}
