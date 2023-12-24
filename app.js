@@ -11,11 +11,6 @@ var userRouter = require('./routes/user');
 var app = express();
 
 /**
- * Database connection
- */
-const connection_db = require('./models/connection_db');
-
-/**
  * Validation strategy setup
  */
 const passport = require('passport');
