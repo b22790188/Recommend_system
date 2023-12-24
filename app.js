@@ -6,6 +6,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth');
+var userRouter = require('./routes/user');
 
 var app = express();
 
@@ -24,7 +25,7 @@ const config = require('./config/config');
 passport.use(new GoogleStrategy({
     clientID: `${config.OAuth_ClientID}`,
     clientSecret: `${config.OAuth_ClientSecret}`,
-    callbackURL: `http://${config.Host}:${config.Port}/auth/google/callback`
+    callbackURL: `http://${config.Host}:${config.Port}/user`
   },
   function(accessToken, refreshToken, profile, cb) {
     return cb(null,profile)
@@ -43,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
+app.use('/user', userRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
